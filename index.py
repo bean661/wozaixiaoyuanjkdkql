@@ -7,11 +7,26 @@ new Env('我在校园健康打卡');
 import datetime
 import os
 import requests
-import utils
 from urllib.parse import urlencode
 import time
 import json
 
+
+# 读写 json 文件
+class processJson:
+    def __init__(self, path):
+        self.path = path
+
+    def read(self):
+        with open(self.path, 'rb') as file:
+            data = json.load(file)
+        file.close()
+        return data
+
+    def write(self, data):
+        with open(self.path, 'w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=2)
+        file.close()
 
 
 class WoZaiXiaoYuanPuncher:
@@ -45,6 +60,17 @@ class WoZaiXiaoYuanPuncher:
         self.sign_data = ""
         # 请求体（必须有）
         self.body = "{}"
+
+    # 地理/逆地理编码请求
+    def geoCode(self, url, params):
+        url = "https://restapi.amap.com/v3/geocode/regeo"
+        _params = {
+            **params,
+            "key": "819cfa3cf713874e1757cba0b50a0172",
+        }
+        response = requests.get(url=url, params=_params)
+        res = json.loads((response.text))
+        return res
     # 设置JWSESSION
     def setJwsession(self):
         # 如果找不到cache,新建cache储存目录与文件
@@ -58,22 +84,22 @@ class WoZaiXiaoYuanPuncher:
         # 如果找到cache,读取cache并更新jwsession
         else:
             print("找到cache文件，正在更新cache中的jwsession...")
-            data = utils.processJson('.cache/'+str(self.data["username"])+".json").read()
+            data = processJson('.cache/'+str(self.data["username"])+".json").read()
             data['jwsession'] = self.jwsession
-        utils.processJson('.cache/'+str(self.data["username"])+".json").write(data)
+        processJson('.cache/'+str(self.data["username"])+".json").write(data)
         self.jwsession = data['jwsession']
 
     # 获取JWSESSION
     def getJwsession(self):
         if not self.jwsession:  # 读取cache中的配置文件
-            data = utils.processJson('.cache/'+str(self.data["username"])+".json").read()
+            data = processJson('.cache/'+str(self.data["username"])+".json").read()
             self.jwsession = data['jwsession']
         return self.jwsession
     # 请求地址信息
     def requestAddress(self, location):
         # 根据经纬度求具体地址
         url2 = 'https://restapi.amap.com/v3/geocode/regeo'
-        res = utils.geoCode(url2, {
+        res = self.geoCode(url2, {
             "location": location
         })
         _res = res['regeocode']['addressComponent']
@@ -204,10 +230,10 @@ class WoZaiXiaoYuanPuncher:
 
 if __name__ == '__main__':
    # 读取环境变量，若变量不存在则返回 默认值 'null'
-    for i in range(100):
+    for i in range(200):
         client_priv_key = os.getenv('wzxyconfig'+str(i), 'null')
         if client_priv_key == 'null':
-            print('打卡成功一共'+str(i)+"个账号")
+            print('打卡完毕，共'+str(i)+"个账号。")
             break
         configs=os.environ['wzxyconfig'+str(i)]
         j = json.loads(configs)
