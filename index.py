@@ -11,6 +11,16 @@ from urllib.parse import urlencode
 import time
 import json
 
+class pre:
+    # 获取answers
+    def get_get_answers(self,i):
+        get_answers = os.getenv("wzxy_jkdk_config" + str(i) + "answers", "null")
+        if get_answers == "null":
+            get_answers = '["0"]'
+            print("未获取到用户的"+str(i+1)+"answers,使用默认answers："+str(get_answers))
+        else:
+            print("获取到用户的"+str(i+1)+"anwsers："+str(get_answers))
+        return get_answers
 
 # 读写 json 文件
 class processJson:
@@ -30,15 +40,15 @@ class processJson:
 
 
 class WoZaiXiaoYuanPuncher:
-    def __init__(self, item):
+    def __init__(self, item, answers):
         # 我在校园账号数据
-        self.data = item['wozaixiaoyaun_data']
+        self.data = item['wozaixiaoyuan_data']
         # pushPlus 账号数据
         self.pushPlus_data = item['pushPlus_data']
-        # leanCloud 账号数据
-        self.leanCloud_data = item['leanCloud_data']
         # mark 打卡用户昵称
         self.mark = item['mark']
+        # answers
+        self.answers = answers
         # 初始化  jwsession
         self.jwsession = ""
         # 学校打卡时段
@@ -73,7 +83,7 @@ class WoZaiXiaoYuanPuncher:
         return res
     # 设置JWSESSION
     def setJwsession(self):
-        # 如果找不到cache,新建cache储存目录与文件
+    # 如果找不到cache,新建cache储存目录与文件
         if not os.path.exists('.cache'):
             print("正在创建cache储存目录与文件...")
             os.mkdir('.cache')
@@ -103,10 +113,9 @@ class WoZaiXiaoYuanPuncher:
             "location": location
         })
         _res = res['regeocode']['addressComponent']
-        print(_res)
         location = location.split(',')
         sign_data = {
-            "answers": '["0"]',
+            "answers": self.answers,
             "latitude": location[1],
             "longitude": location[0],
             "country": '中国',
@@ -164,13 +173,14 @@ class WoZaiXiaoYuanPuncher:
 
     # 打卡
     def doPunchIn(self):
-        print('开始打卡')
+        print('开始打卡，打卡信息：')
         url = "https://student.wozaixiaoyuan.com/health/save.json"
         self.header['Host'] = "student.wozaixiaoyuan.com"
         self.header['content-type'] = "application/x-www-form-urlencoded"
         self.header['JWSESSION'] = self.jwsession
         sign_data = self.requestAddress(self.data['location'])
         self.sign_data = sign_data
+        print(sign_data)
         data = urlencode(sign_data)
         response = self.session.post(url, data=data, headers=self.header)
         response = json.loads(response.text)
@@ -231,16 +241,17 @@ class WoZaiXiaoYuanPuncher:
 if __name__ == '__main__':
    # 读取环境变量，若变量不存在则返回 默认值 'null'
     for i in range(200):
-        client_priv_key = os.getenv('wzxyconfig'+str(i), 'null')
+        client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
         if client_priv_key == 'null':
             print('打卡完毕，共'+str(i)+"个账号。")
             break
-        configs=os.environ['wzxyconfig'+str(i)]
-        j = json.loads(configs)
-        print("开始打卡用户："+j["mark"])
-        wzxy = WoZaiXiaoYuanPuncher(j)
+        configs = os.environ['wzxy_jkdk_config'+str(i)]
+        configs = json.loads(configs)
+        answers = pre().get_get_answers(i)
+        print("开始打卡用户："+configs["mark"])
+        wzxy = WoZaiXiaoYuanPuncher(configs, answers)
         # 如果没有 jwsession，则 登录 + 打卡
-        if os.path.exists('.cache/'+str(j["wozaixiaoyaun_data"]["username"])+".json") is False:
+        if os.path.exists('.cache/'+str(configs["wozaixiaoyuan_data"]["username"])+".json") is False:
             print("找不到cache文件，正在使用账号信息登录...")
             loginStatus = wzxy.login()
             if loginStatus:
@@ -251,4 +262,4 @@ if __name__ == '__main__':
         else:
             print("找到cache文件，正在使用jwsession打卡")
             wzxy.PunchIn()
-            wzxy.sendNotification()
+        wzxy.sendNotification()
