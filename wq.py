@@ -130,8 +130,9 @@ class WoZaiXiaoYuanPuncher:
         # 登录
         response = self.session.post(url=url, data=self.body, headers=self.header)
         res = json.loads(response.text)
+        print(res)
         if res["code"] == 0:
-            jwsession = response.headers['JWSESSION']
+            self.jwsession = response.headers['JWSESSION']
             self.setJwsession()
             return True
         else:
@@ -141,13 +142,13 @@ class WoZaiXiaoYuanPuncher:
 
     # 判断当前时间段是否可以晚签
     def timeTF(self):
-        # 检测当前时间段
+        # 检测当前时间段 先关了
         time_now = time.strftime("%H:%M:%S", time.localtime())
         time_list = time_now.split(":")
-        if time_list[0] != '22':
+        if time_list[0] != '11':
             print("不在晚签时间段,请换时间晚签")
             self.status_code = 3
-            return False
+            return True
         else:
             print("在晚签时间段 开始晚签")
             return True
@@ -156,7 +157,7 @@ class WoZaiXiaoYuanPuncher:
     def PunchIn(self):
         # 先判断 再晚签
         # if self.timeTF():
-        if True:
+        if self.timeTF():
             headers = {
                 "jwsession": self.getJwsession()
             }
@@ -168,6 +169,7 @@ class WoZaiXiaoYuanPuncher:
             s = requests.session()
             r = s.post(url, data=post_data, headers=headers)
             res = json.loads(r.text)
+            print(headers)
             print(str(res)+str(111111))
             if res['code'] == -10:
                 print('jwsession 无效，尝试账号密码晚签')
@@ -188,7 +190,7 @@ class WoZaiXiaoYuanPuncher:
         headers = {
             "jwsession": self.getJwsession()
         }
-        post_data = self.requestAddress(self.data['location'], self.sign_message)
+        post_data = self.requestAddress(self.data['location'])
 
         url = "https://student.wozaixiaoyuan.com/sign/doSign.json"
         s = requests.session()
