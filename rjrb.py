@@ -7,9 +7,7 @@ new Env('我在校园日检日报');
 import datetime
 import os
 import random
-
 import requests
-from urllib.parse import urlencode
 import time
 import json
 
