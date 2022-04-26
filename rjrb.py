@@ -13,7 +13,16 @@ from urllib.parse import urlencode
 import time
 import json
 
-
+class pre:
+    # 获取answers
+    def get_get_answers(self,i):
+        get_answers = os.getenv("wzxy_rjrb_config" + str(i) + "answers", "null")
+        if get_answers == "null":
+            get_answers = '["0","0"]'
+            print("未获取到用户的"+str(i+1)+"answers,使用默认answers："+str(get_answers))
+        else:
+            print("获取到用户的"+str(i+1)+"anwsers："+str(get_answers))
+        return get_answers
 # 读写 json 文件
 class processJson:
     def __init__(self, path):
@@ -33,9 +42,9 @@ class processJson:
 
 
 class WoZaiXiaoYuanPuncher:
-    def __init__(self, item,answers):
+    def __init__(self, item, answers):
         # 我在校园账号数据
-        self.data = item['wozaixiaoyaun_data']
+        self.data = item['wozaixiaoyuan_data']
         # pushPlus 账号数据
         self.pushPlus_data = item['pushPlus_data']
         # mark 打卡用户昵称
@@ -45,7 +54,7 @@ class WoZaiXiaoYuanPuncher:
         # 初始化 leanCloud 对象
         self.jwsession = ""
         # 学校打卡时段
-        self.seqs = []
+        self.seq = 0
         # 打卡结果
         self.status_code = 0
         # 请求头
@@ -99,6 +108,16 @@ class WoZaiXiaoYuanPuncher:
             data = processJson('.cache/' + str(self.data["username"]) + ".json").read()
             self.jwsession = data['jwsession']
         return self.jwsession
+    # 获取打卡seq
+    def get_seq(self,res):
+        current_hour = datetime.datetime.now()
+        current_hour = current_hour.hour
+        for i in range(len(res['data'])):
+            startTime = res['data'][i]['startTime']
+            endTime = res['data'][i]['endTime']
+            if self.seq == 0 and int(startTime.split(':')[0]) <= int(current_hour) <= int(endTime.split(':')[0]):
+                self.seq = res['data'][i]['seq']
+                return self.seq
     # 请求地址信息
     def requestAddress(self, location):
         # 根据经纬度求具体地址
@@ -110,7 +129,7 @@ class WoZaiXiaoYuanPuncher:
         location = location.split(',')
         sign_data = {
             "answers": self.answers,
-            "seq": '',
+            "seq": self.seq,
             "temperature": '36.5',
             "latitude": location[1],
             "longitude": location[0],
@@ -145,13 +164,13 @@ class WoZaiXiaoYuanPuncher:
 
     # 获取打卡列表，判断当前打卡时间段与打卡情况，符合条件则自动进行打卡
     def PunchIn(self):
-        print("查询是否打卡")
         url = "https://student.wozaixiaoyuan.com/heat/getTodayHeatList.json"
         self.header['Host'] = "student.wozaixiaoyuan.com"
         self.header['JWSESSION'] = self.getJwsession()
         self.session = requests.session()
         response = self.session.post(url=url, data=self.body, headers=self.header)
         res = json.loads(response.text)
+        self.seq = self.get_seq(res)
         # 如果 jwsession 无效，则重新 登录 + 打卡
         if res['code'] == -10:
             print('jwsession 无效，将尝试使用账号信息重新登录')
@@ -163,12 +182,11 @@ class WoZaiXiaoYuanPuncher:
                 print(res)
                 print("重新登录失败，请检查账号信息")
         elif res['code'] == 0:
-            self.doPunchIn(str(self.get_seq()))
+            self.doPunchIn()
 
     # 打卡
-    def doPunchIn(self, seq):
-        print(datetime.datetime.now())
-        print("正在进行：" + str(self.get_seq()) + "...")
+    def doPunchIn(self):
+        print("正在进行：" + str(self.seq) + "...")
         headers = {
             "Host": "student.wozaixiaoyuan.com",
             "Content-Type": "application/x-www-form-urlencoded",
@@ -183,7 +201,6 @@ class WoZaiXiaoYuanPuncher:
         headers["JWSESSION"] = self.getJwsession()
         url = "https://student.wozaixiaoyuan.com/heat/save.json"
         sign_data = self.requestAddress(self.data['location'])
-        sign_data['seq'] = str(seq)
         sign_data['temperature'] = self.get_random_temprature()
         self.sign_data = sign_data
         # 如果存在全局变量WZXY_ANSWERS，处理传入的Answer
@@ -199,19 +216,6 @@ class WoZaiXiaoYuanPuncher:
             print(response)
             print("打卡失败")
 
-    # 获取打卡时段
-    # seq的1,2,3代表早，中，晚
-    def get_seq(self):
-        current_hour = datetime.datetime.now()
-        current_hour = current_hour.hour
-        if 6 <= current_hour <= 9:
-            return "1"
-        elif 12 <= current_hour < 18:
-            return "2"
-        elif 19 <= current_hour < 22:
-            return "3"
-        else:
-            return 1
 
     # 获取随机体温
     def get_random_temprature(self):
@@ -264,7 +268,6 @@ class WoZaiXiaoYuanPuncher:
 
 
 if __name__ == '__main__':
-    global get_answers
     # 读取环境变量，若变量不存在则返回 默认值 'null'
     for i in range(200):
         get_data = os.getenv('wzxy_rjrb_config' + str(i), 'null')
@@ -272,14 +275,12 @@ if __name__ == '__main__':
             print('打卡完毕，共' + str(i) + "个账号。")
             break
         configs = os.environ['wzxy_rjrb_config' + str(i)]
-        j = json.loads(configs)
-        get_answers = os.getenv("wzxy_rjrb_config"+str(i)+"answers","null")
-        if get_answers == "null":
-            get_answers = '["0","0"]'
-        print("开始打卡用户：" + j["mark"])
-        wzxy = WoZaiXiaoYuanPuncher(j,get_answers)
+        configs = json.loads(configs)
+        answers = pre().get_get_answers(i)
+        print("开始打卡用户：" + configs["mark"])
+        wzxy = WoZaiXiaoYuanPuncher(configs,answers)
         # 如果没有 jwsession，则 登录 + 晚签
-        if os.path.exists('.cache/' + str(j["wozaixiaoyaun_data"]["username"]) + ".json") is False:
+        if os.path.exists('.cache/' + str(configs["wozaixiaoyuan_data"]["username"]) + ".json") is False:
             print("找不到cache文件，正在使用账号信息登录...")
             loginStatus = wzxy.login()
             if loginStatus:
