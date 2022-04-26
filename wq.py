@@ -169,8 +169,6 @@ class WoZaiXiaoYuanPuncher:
             s = requests.session()
             r = s.post(url, data=post_data, headers=headers)
             res = json.loads(r.text)
-            print(headers)
-            print(str(res)+str(111111))
             if res['code'] == -10:
                 print('jwsession 无效，尝试账号密码晚签')
                 self.status_code = 4
