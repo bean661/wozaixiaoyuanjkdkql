@@ -177,7 +177,7 @@ class WoZaiXiaoYuanPuncher:
     # 打卡
     def doPunchIn(self):
         print('开始打卡，打卡信息：')
-        url = "https://student.wozaixiaoyuan.com/health/save.json"
+        url = "https://student.wozaixiaoyuan.com/health/sav.json"
         self.header['Host'] = "student.wozaixiaoyuan.com"
         self.header['content-type'] = "application/x-www-form-urlencoded"
         self.header['JWSESSION'] = self.jwsession
@@ -223,7 +223,7 @@ class WoZaiXiaoYuanPuncher:
             "打卡项目": "健康打卡",
             "打卡情况": notifyResult,
             "打卡信息": self.sign_data,
-            "打卡时间": (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S'),
+            "打卡时间": time.strftime("%Y-%m-%d %H:%M:%S", (time.localtime())),
         }, ensure_ascii=False)
         msg = {
             "token": notifyToken,
@@ -244,25 +244,28 @@ class WoZaiXiaoYuanPuncher:
 if __name__ == '__main__':
    # 读取环境变量，若变量不存在则返回 默认值 'null'
     for i in range(200):
-        client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
-        if client_priv_key == 'null':
-            print('打卡完毕，共'+str(i)+"个账号。")
-            break
-        configs = os.environ['wzxy_jkdk_config'+str(i)]
-        configs = json.loads(configs)
-        answers = pre().get_answers(i)
-        print("开始打卡用户："+configs["mark"])
-        wzxy = WoZaiXiaoYuanPuncher(configs, answers)
-        # 如果没有 jwsession，则 登录 + 打卡
-        if os.path.exists('.cache/'+str(configs["wozaixiaoyuan_data"]["username"])+".json") is False:
-            print("找不到cache文件，正在使用账号信息登录...")
-            loginStatus = wzxy.login()
-            if loginStatus:
-                print("登录成功,开始打卡")
-                wzxy.PunchIn()
+        try:
+            client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
+            if client_priv_key == 'null':
+                print('打卡完毕，共'+str(i)+"个账号。")
+                break
+            configs = os.environ['wzxy_jkdk_config'+str(i)]
+            configs = json.loads(configs)
+            answers = pre().get_answers(i)
+            print("开始打卡用户："+configs["mark"])
+            wzxy = WoZaiXiaoYuanPuncher(configs, answers)
+            # 如果没有 jwsession，则 登录 + 打卡
+            if os.path.exists('.cache/'+str(configs["wozaixiaoyuan_data"]["username"])+".json") is False:
+                print("找不到cache文件，正在使用账号信息登录...")
+                loginStatus = wzxy.login()
+                if loginStatus:
+                    print("登录成功,开始打卡")
+                    wzxy.PunchIn()
+                else:
+                    print("登录失败")
             else:
-                print("登录失败")
-        else:
-            print("找到cache文件，正在使用jwsession打卡")
-            wzxy.PunchIn()
-        wzxy.sendNotification()
+                print("找到cache文件，正在使用jwsession打卡")
+                wzxy.PunchIn()
+            wzxy.sendNotification()
+        except Exception as e:
+            print(e+"信息异常")
