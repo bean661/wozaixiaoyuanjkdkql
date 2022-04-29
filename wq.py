@@ -229,7 +229,7 @@ class WoZaiXiaoYuanPuncher:
             "晚签项目": "晚签",
             "晚签情况": notifyResult,
             "晚签信息": self.sign_data,
-            "晚签时间": (datetime.datetime.now() + datetime.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S'),
+            "晚签时间": time.strftime("%Y-%m-%d %H:%M:%S", (time.localtime())),
         }, ensure_ascii=False)
         msg = {
             "token": notifyToken,
@@ -250,24 +250,27 @@ class WoZaiXiaoYuanPuncher:
 if __name__ == '__main__':
     # 读取环境变量，若变量不存在则返回 默认值 'null'
     for i in range(200):
-        client_priv_key = os.getenv('wzxy_wq_config' + str(i), 'null')
-        if client_priv_key == 'null':
-            print('打卡完毕，共' + str(i) + "个账号。")
-            break
-        configs = os.environ['wzxy_wq_config' + str(i)]
-        configs = json.loads(configs)
-        print("开始打卡用户：" + configs["mark"])
-        wzxy = WoZaiXiaoYuanPuncher(configs)
-        # 如果没有 jwsession，则 登录 + 晚签
-        if os.path.exists('.cache/'+str(configs["wozaixiaoyuan_data"]["username"])+".json") is False:
-            print("找不到cache文件，正在使用账号信息登录...")
-            loginStatus = wzxy.login()
-            if loginStatus:
-                print("登录成功,开始晚签")
-                wzxy.PunchIn()
+        try:
+            client_priv_key = os.getenv('wzxy_wq_config' + str(i), 'null')
+            if client_priv_key == 'null':
+                print('打卡完毕，共' + str(i) + "个账号。")
+                break
+            configs = os.environ['wzxy_wq_config' + str(i)]
+            configs = json.loads(configs)
+            print("开始打卡用户：" + configs["mark"])
+            wzxy = WoZaiXiaoYuanPuncher(configs)
+            # 如果没有 jwsession，则 登录 + 晚签
+            if os.path.exists('.cache/'+str(configs["wozaixiaoyuan_data"]["username"])+".json") is False:
+                print("找不到cache文件，正在使用账号信息登录...")
+                loginStatus = wzxy.login()
+                if loginStatus:
+                    print("登录成功,开始晚签")
+                    wzxy.PunchIn()
+                else:
+                    print("登录失败")
             else:
-                print("登录失败")
-        else:
-            print("找到cache文件，正在使用jwsession晚签")
-            wzxy.PunchIn()
-        wzxy.sendNotification()
+                print("找到cache文件，正在使用jwsession晚签")
+                wzxy.PunchIn()
+            wzxy.sendNotification()
+        except Exception as e:
+            print(e+"信息异常")
