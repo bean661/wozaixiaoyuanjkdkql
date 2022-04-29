@@ -273,4 +273,4 @@ if __name__ == '__main__':
                 wzxy.PunchIn()
             wzxy.sendNotification()
         except Exception as e:
-            print(e+"信息异常")
+            print("信息异常")
