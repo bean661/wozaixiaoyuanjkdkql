@@ -177,7 +177,7 @@ class WoZaiXiaoYuanPuncher:
     # 打卡
     def doPunchIn(self):
         print('开始打卡，打卡信息：')
-        url = "https://student.wozaixiaoyuan.com/health/sav.json"
+        url = "https://student.wozaixiaoyuan.com/health/save.json"
         self.header['Host'] = "student.wozaixiaoyuan.com"
         self.header['content-type'] = "application/x-www-form-urlencoded"
         self.header['JWSESSION'] = self.jwsession
