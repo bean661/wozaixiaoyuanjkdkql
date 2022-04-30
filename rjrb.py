@@ -116,7 +116,7 @@ class WoZaiXiaoYuanPuncher:
         for i in range(len(res['data'])):
             startTime = res['data'][i]['startTime']
             endTime = res['data'][i]['endTime']
-            if self.seq == 0 and int(startTime.split(':')[0]) <= int(current_hour) <= int(endTime.split(':')[0]):
+            if self.seq == 0 and int(startTime.split(':')[0]) <= int(current_hour) < int(endTime.split(':')[0]):
                 self.seq = res['data'][i]['seq']
                 return self.seq
     # 请求地址信息
