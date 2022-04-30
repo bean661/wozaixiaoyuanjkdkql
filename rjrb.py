@@ -278,7 +278,7 @@ if __name__ == '__main__':
                 break
             configs = os.environ['wzxy_rjrb_config' + str(i)]
             configs = json.loads(configs)
-            answers = pre().get_get_answers(i)
+            answers = pre().get_answers(i)
             print("开始打卡用户：" + configs["mark"])
             wzxy = WoZaiXiaoYuanPuncher(configs,answers)
             # 如果没有 jwsession，则 登录 + 晚签
@@ -295,4 +295,4 @@ if __name__ == '__main__':
                 wzxy.PunchIn()
             wzxy.sendNotification()
         except Exception as e:
-            print("信息异常")
+            print("账号"+str(i+1)+"信息异常")
