@@ -14,6 +14,7 @@ import json
 class pre:
     # 获取answers
     def get_answers(self,i):
+        global get_answers
         get_answers = os.getenv("wzxy_jkdk_config" + str(i) + "answers", "null")
         if get_answers == "null":
             get_answers = '["0"]'
