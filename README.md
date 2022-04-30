@@ -17,7 +17,7 @@
 
 
 
-我在校园 **健康打卡**  **晚签**  **日检日报**
+## 我在校园 **健康打卡**  **晚签**  **日检日报**
 
 青龙面板初始配置参照教程 https://blog.csdn.net/FishBean/article/details/121819862
 
@@ -25,19 +25,19 @@
 
 <img src="https://gitee.com/Bean6560/images/raw/master/typora/image-20220426130306654.png" alt="drawing" width="500"/>
 
-拉去成功如下
+拉取成功如下
 
 ![image-20220426130612684](https://gitee.com/Bean6560/images/raw/master/typora/image-20220426130612684.png)
 
-配置：
+### 配置：
 
 每个参数介绍看这个[bean661/WoZaiXiaoYuanPuncher: 我在校园自动健康打卡程序 (github.com)](https://github.com/bean661/WoZaiXiaoYuanPuncher)
 
 填写位置：青龙面板-配置文件-config.sh 下方有最终截图
 
-单用户：
+#### 单用户：
 
-健康打卡 
+##### 健康打卡 
 
 ​	格式：
 
@@ -61,7 +61,7 @@ wzxy_jkdk_config0='
 wzxy_jkdk_config0answers="["0"]"
 ```
 
-日检日报
+##### 日检日报
 
 ​	格式：
 
@@ -85,7 +85,7 @@ wzxy_rjrb_config0='
 wzxy_rjrb_config0answers="["0","0"]"
 ```
 
-晚签
+#####  晚签
 
   格式：
 
@@ -105,7 +105,7 @@ wzxy_wq_config0='
 '
 ```
 
-多用户：
+#### 多用户：
 
 规则都一样 以健康打卡为例
 
@@ -117,8 +117,12 @@ wzxy_wq_config0='
 
 <img src="https://gitee.com/Bean6560/images/raw/master/typora/image-20220426131848685.png" alt="drawing" width="500"/>
 
-最后点击保存即可 
+#### 最后点击保存即可 
 
-回到青龙面板-定时任务
+#### 回到青龙面板-定时任务
 
-自行进行设置任务 以及手动测试脚本即可。
+#### 自行进行设置任务 以及手动测试脚本即可。
+
+### 赞赏支持
+<img src="https://gitee.com/Bean6560/images/raw/master/typora/QQ%E5%9B%BE%E7%89%8720220430120324.jpg" width="500px" height="650px" alt="daka" align=center>
+
