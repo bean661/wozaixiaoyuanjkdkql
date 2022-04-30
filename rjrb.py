@@ -14,7 +14,7 @@ import json
 class pre:
     # 获取answers
     def get_answers(self,i):
-        get_answers = os.getenv("wzxy_jkdk_config" + str(i) + "answers", "null")
+        get_answers = os.getenv("wzxy_rjrb_config" + str(i) + "answers", "null")
         if get_answers == "null":
             get_answers = '["0"]'
             print("未获取到用户的"+str(i+1)+"answers,使用默认answers："+str(get_answers))
