@@ -198,9 +198,13 @@ class WoZaiXiaoYuanPuncher:
         if r_json['code'] == 0:
             self.status_code = 1
             print("签到提醒", "签到成功")
+            if self.pushPlus_data['onlyWrongNotify'] == "false":
+                self.sendNotification()
+
         else:
             self.status_code = 5
             print("签到提醒", "签到失败,返回信息为:" + str(r_json))
+            self.sendNotification()
 
     # 获取晚签结果
     def getResult(self):
@@ -271,6 +275,5 @@ if __name__ == '__main__':
             else:
                 print("找到cache文件，正在使用jwsession晚签")
                 wzxy.PunchIn()
-            wzxy.sendNotification()
         except Exception as e:
             print("账号"+str(i+1)+"信息异常")

@@ -213,10 +213,13 @@ class WoZaiXiaoYuanPuncher:
         if response["code"] == 0:
             self.status_code = 1
             print("打卡成功")
+            if self.pushPlus_data['onlyWrongNotify'] == "false":
+                self.sendNotification()
         elif response["code"] == 1:
             self.status_code = 3
             print(response)
             print("打卡失败")
+            self.sendNotification()
 
 
     # 获取随机体温
@@ -294,6 +297,5 @@ if __name__ == '__main__':
             else:
                 print("检测到jwsession存在，使用jwsession打卡")
                 wzxy.PunchIn()
-            wzxy.sendNotification()
         except Exception as e:
             print("账号"+str(i+1)+"信息异常")
