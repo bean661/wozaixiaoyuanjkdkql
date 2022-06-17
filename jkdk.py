@@ -192,10 +192,12 @@ class WoZaiXiaoYuanPuncher:
         if response["code"] == 0:
             self.status_code = 1
             print("打卡成功")
+            if self.pushPlus_data['onlyWrongNotify'] == "false":
+                self.sendNotification()
         else:
-            self.status_code = 3
             print(response)
             print("打卡失败")
+            self.sendNotification()
 
     # 获取打卡结果
     def getResult(self):
@@ -267,6 +269,5 @@ if __name__ == '__main__':
             else:
                 print("找到cache文件，正在使用jwsession打卡")
                 wzxy.PunchIn()
-            wzxy.sendNotification()
         except Exception as e:
             print("账号"+str(i+1)+"信息异常")
