@@ -50,7 +50,8 @@ wzxy_jkdk_config0='
             "location":"133.333333,33.333333"
         },
         "pushPlus_data":{
-            "notifyToken" : "4d25976cc88888ae8f8688889780bfe1"
+            "notifyToken" : "4d25976cc88888ae8f8688889780bfe1",
+            "onlyWrongNotify" : "false"
         },
         "mark": "Bean"
     }
@@ -74,7 +75,8 @@ wzxy_rjrb_config0='
             "location":"133.333333,33.333333"
         },
         "pushPlus_data":{
-            "notifyToken" : "4d25976cc88888ae8f8688889780bfe1"
+            "notifyToken" : "4d25976cc88888ae8f8688889780bfe1",
+            "onlyWrongNotify" : "false"
         },
         "mark": "Bean"
     }
@@ -98,7 +100,8 @@ wzxy_wq_config0='
             "location":"133.333333,33.333333"
         },
         "pushPlus_data":{
-            "notifyToken" : "4d25976cc88888ae8f8688889780bfe1"
+            "notifyToken" : "4d25976cc88888ae8f8688889780bfe1",
+            "onlyWrongNotify" : "false"
         },
         "mark": "Bean"
     }
