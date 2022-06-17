@@ -178,6 +178,7 @@ class WoZaiXiaoYuanPuncher:
                     self.PunchIn()
                 else:
                     print("登录失败")
+                    self.sendNotification()
             elif res['code'] == 0:
                 self.sign_message = res['data'][0]
                 print("开始晚签")

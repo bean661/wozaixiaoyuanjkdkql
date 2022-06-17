@@ -183,6 +183,7 @@ class WoZaiXiaoYuanPuncher:
             else:
                 print(res)
                 print("重新登录失败，请检查账号信息")
+                self.sendNotification()
         elif res['code'] == 0:
             self.doPunchIn()
 
