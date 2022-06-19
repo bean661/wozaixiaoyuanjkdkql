@@ -47,7 +47,8 @@ wzxy_jkdk_config0='
         "wozaixiaoyuan_data":{
             "username": "15512345678",
             "password": "wzxywzxy",
-            "location":"133.333333,33.333333"
+            "location":"133.333333,33.333333",
+            "answers":"0,2,36.5,2,7"
         },
         "pushPlus_data":{
             "notifyToken" : "4d25976cc88888ae8f8688889780bfe1",
@@ -58,9 +59,6 @@ wzxy_jkdk_config0='
 '
 ```
 
-```
-wzxy_jkdk_config0answers="["0"]"
-```
 
 ##### 日检日报
 
@@ -72,7 +70,8 @@ wzxy_rjrb_config0='
         "wozaixiaoyuan_data":{
             "username": "15512345678",
             "password": "wzxywzxy",
-            "location":"133.333333,33.333333"
+            "location":"133.333333,33.333333",
+            "answers":"0,2,36.5,2,7"
         },
         "pushPlus_data":{
             "notifyToken" : "4d25976cc88888ae8f8688889780bfe1",
@@ -83,9 +82,6 @@ wzxy_rjrb_config0='
 '
 ```
 
-```
-wzxy_rjrb_config0answers="["0","0"]"
-```
 
 #####  晚签
 
@@ -112,9 +108,9 @@ wzxy_wq_config0='
 
 规则都一样 以健康打卡为例
 
-第一个用户是wzxy_jkdk_config**0**='xxxx'  wzxy_jkdk_config**0**answers="["0"]"
+第一个用户是wzxy_jkdk_config**0**='xxxx'  
 
-第二个用户是wzxy_jkdk_config**1**='xxxx'  wzxy_jkdk_config**1**answers="["0"]"
+第二个用户是wzxy_jkdk_config**1**='xxxx'  
 
 以此累加
 
