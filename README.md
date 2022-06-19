@@ -35,6 +35,8 @@
 
 填写位置：青龙面板-配置文件-config.sh 下方有最终截图
 
+* *answers* 写成 *""* ,使用脚本默认配置answers
+
 #### 单用户：
 
 ##### 健康打卡 
@@ -48,7 +50,7 @@ wzxy_jkdk_config0='
             "username": "15512345678",
             "password": "wzxywzxy",
             "location":"133.333333,33.333333",
-            "answers":"0,2,36.5,2,7"
+            "answers":"0,2,36.5,2,7"    
         },
         "pushPlus_data":{
             "notifyToken" : "4d25976cc88888ae8f8688889780bfe1",
