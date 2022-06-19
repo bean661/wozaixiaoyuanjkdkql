@@ -11,20 +11,7 @@ import requests
 import time
 import json
 
-class pre:
-    # 获取answers
-    def get_answers(self,i):
-        global get_answers
-        get_answers = os.getenv("wzxy_rjrb_config" + str(i) + "answers", "null")
-        if get_answers == "null":
-            get_answers = '["0"]'
-            print("未获取到用户的"+str(i+1)+"answers,使用默认answers："+str(get_answers))
-        else:
-            get_answers = get_answers.strip('[')
-            get_answers = get_answers.strip(']')
-            get_answers = get_answers.split(',')
-            print("获取到用户的"+str(i+1)+"anwsers："+str(get_answers))
-        return get_answers
+
 # 读写 json 文件
 class processJson:
     def __init__(self, path):
@@ -44,15 +31,19 @@ class processJson:
 
 
 class WoZaiXiaoYuanPuncher:
-    def __init__(self, item, answers):
+    def __init__(self, item):
         # 我在校园账号数据
         self.data = item['wozaixiaoyuan_data']
         # pushPlus 账号数据
         self.pushPlus_data = item['pushPlus_data']
         # mark 打卡用户昵称
         self.mark = item['mark']
-        #anwser
-        self.answers = answers
+        # answers
+        if self.data['answers'] == '':
+            print("未获取到用户的answers 采用默认answers：['0']打卡")
+            self.answers = "['0']"
+        else:
+            self.answers = self.data['answers'].replace(" ", "").split(',')
         # 初始化 leanCloud 对象
         self.jwsession = ""
         # 学校打卡时段
@@ -213,13 +204,13 @@ class WoZaiXiaoYuanPuncher:
         # 打卡情况
         if response["code"] == 0:
             self.status_code = 1
-            print("打卡成功")
+            print("-------------------------打卡成功-------------------------")
             if self.pushPlus_data['onlyWrongNotify'] == "false":
                 self.sendNotification()
         elif response["code"] == 1:
             self.status_code = 3
             print(response)
-            print("打卡失败")
+            print("-------------------------打卡失败-------------------------")
             self.sendNotification()
 
 
@@ -283,9 +274,8 @@ if __name__ == '__main__':
                 break
             configs = os.environ['wzxy_rjrb_config' + str(i)]
             configs = json.loads(configs)
-            answers = pre().get_answers(i)
-            print("开始打卡用户：" + configs["mark"])
-            wzxy = WoZaiXiaoYuanPuncher(configs,answers)
+            print("--------------开始打卡用户："+configs["mark"]+"------------------")
+            wzxy = WoZaiXiaoYuanPuncher(configs)
             # 如果没有 jwsession，则 登录 + 晚签
             if os.path.exists('.cache/' + str(configs["wozaixiaoyuan_data"]["username"]) + ".json") is False:
                 print("找不到cache文件，正在使用账号信息登录...")

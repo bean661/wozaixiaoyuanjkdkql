@@ -262,7 +262,7 @@ if __name__ == '__main__':
                 break
             configs = os.environ['wzxy_wq_config' + str(i)]
             configs = json.loads(configs)
-            print("开始打卡用户：" + configs["mark"])
+            print("--------------开始打卡用户："+configs["mark"]+"------------------")
             wzxy = WoZaiXiaoYuanPuncher(configs)
             # 如果没有 jwsession，则 登录 + 晚签
             if os.path.exists('.cache/'+str(configs["wozaixiaoyuan_data"]["username"])+".json") is False:

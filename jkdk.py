@@ -186,7 +186,7 @@ class WoZaiXiaoYuanPuncher:
                 self.sendNotification()
         else:
             print(response)
-            print("打卡失败")
+            print("-------------------------打卡失败-------------------------")
             self.sendNotification()
 
     # 获取打卡结果
