@@ -114,7 +114,7 @@ wzxy_wq_config0='
 
 以此累加
 
-<img src="https://gitee.com/Bean6560/images/raw/master/typora/image-20220426131848685.png" alt="drawing" width="500"/>
+<img src="https://gitee.com/Bean6560/images/raw/master/typora/QQ截图20220619112833.png" alt="drawing" width="500"/>
 
 #### 最后点击保存即可 
 
