@@ -23,19 +23,19 @@
 
 到2.4部分即可，2.4的拉库地址为 `ql repo https://github.com/bean661/wozaixiaoyuanjkdkql.git` 即我在校园脚本仓库。
 
-<img src="https://cdn.jsdelivr.net/gh/bean661/images@main/img/image-20220426130306654.png" alt="drawing" width="500"/>
+<img src="https://cdn.jsdelivr.net/gh/bean661/images@main/img/image-20220426130306654.png" alt="drawing" width="300"/>
 
 拉取成功如下
 
-![](https://cdn.jsdelivr.net/gh/bean661/images@main/img/image-20220426130612684.png)
+<img src="https://cdn.jsdelivr.net/gh/bean661/images@main/img/image-20220426130612684.png" width="900px" height="300px" alt="daka" align=center>
 
 ### 配置：
 
 每个参数介绍看这个[bean661/WoZaiXiaoYuanPuncher: 我在校园自动健康打卡程序 (github.com)](https://github.com/bean661/WoZaiXiaoYuanPuncher)
 
-填写位置：青龙面板-配置文件-config.sh 下方有最终截图
+填写位置：青龙面板-配置文件-config.sh 截图实例
 
-* *answers* 写成 *""* ,使用脚本默认配置answers
+<img src="https://cdn.jsdelivr.net/gh/bean661/images@main/img/202206192131297.png" width="600px" height="400px" alt="daka" align=center>
 
 #### 单用户：
 
@@ -50,7 +50,7 @@ wzxy_jkdk_config0='
             "username": "15512345678",
             "password": "wzxywzxy",
             "location":"133.333333,33.333333",
-            "answers":"0,2,36.5,2,7"    
+            "answers":""    
         },
         "pushPlus_data":{
             "notifyToken" : "4d25976cc88888ae8f8688889780bfe1",
@@ -73,7 +73,7 @@ wzxy_rjrb_config0='
             "username": "15512345678",
             "password": "wzxywzxy",
             "location":"133.333333,33.333333",
-            "answers":"0,2,36.5,2,7"
+            "answers":""
         },
         "pushPlus_data":{
             "notifyToken" : "4d25976cc88888ae8f8688889780bfe1",
@@ -116,14 +116,14 @@ wzxy_wq_config0='
 
 以此累加
 
-![QQ截图20220619112833](https://cdn.jsdelivr.net/gh/bean661/images@main/img/QQ%E6%88%AA%E5%9B%BE20220619112833.png)
 
-#### 最后点击保存即可 
 
-#### 回到青龙面板-定时任务
+##### 最后点击保存即可 
 
-#### 自行进行设置任务 以及手动测试脚本即可。
+##### 回到青龙面板-定时任务
 
-### 赞赏支持
-<img src="https://cdn.jsdelivr.net/gh/bean661/images@main/img/QQ图片20220430120324.jpg" width="500px" height="650px" alt="daka" align=center>
+##### 自行进行设置任务 以及手动测试脚本即可。
+
+#### 赞赏支持
+<img src="https://cdn.jsdelivr.net/gh/bean661/images@main/img/QQ图片20220430120324.jpg" width="300px" height="400px" alt="daka" align=center>
 
