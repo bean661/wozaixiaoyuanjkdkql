@@ -112,13 +112,9 @@ wzxy_wq_config0='
 
 第二个用户是wzxy_jkdk_config**1**='xxxx'  
 
-![QQ截图20220619112833](https://cdn.jsdelivr.net/gh/bean661/images@main/img/QQ%E6%88%AA%E5%9B%BE20220619112833.png)
-
 以此累加
 
-<img src="https://gitee.com/Bean6560/images/raw/master/typora/QQ截图20220619112833.png" alt="drawing" width="500"/>
-
-![QQ截图20220619112833](E:\destop\QQ截图20220619112833.png)
+![QQ截图20220619112833](https://cdn.jsdelivr.net/gh/bean661/images@main/img/QQ%E6%88%AA%E5%9B%BE20220619112833.png)
 
 #### 最后点击保存即可 
 
