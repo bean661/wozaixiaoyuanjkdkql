@@ -37,7 +37,7 @@ class WoZaiXiaoYuanPuncher:
         # mark 打卡用户昵称
         self.mark = item['mark']
         # answers
-        if self.data['answers'] is '':
+        if self.data['answers'] == '':
             print("未获取到用户的answers 采用默认answers：['0']打卡")
             self.answers = "['0']"
         else:
