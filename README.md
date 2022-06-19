@@ -23,11 +23,11 @@
 
 到2.4部分即可，2.4的拉库地址为 `ql repo https://github.com/bean661/wozaixiaoyuanjkdkql.git` 即我在校园脚本仓库。
 
-<img src="https://gitee.com/Bean6560/images/raw/master/typora/image-20220426130306654.png" alt="drawing" width="500"/>
+<img src="https://cdn.jsdelivr.net/gh/bean661/images@main/img/image-20220426130306654.png" alt="drawing" width="500"/>
 
 拉取成功如下
 
-![image-20220426130612684](https://gitee.com/Bean6560/images/raw/master/typora/image-20220426130612684.png)
+![](https://cdn.jsdelivr.net/gh/bean661/images@main/img/image-20220426130612684.png)
 
 ### 配置：
 
@@ -112,9 +112,13 @@ wzxy_wq_config0='
 
 第二个用户是wzxy_jkdk_config**1**='xxxx'  
 
+![QQ截图20220619112833](https://cdn.jsdelivr.net/gh/bean661/images@main/img/QQ%E6%88%AA%E5%9B%BE20220619112833.png)
+
 以此累加
 
 <img src="https://gitee.com/Bean6560/images/raw/master/typora/QQ截图20220619112833.png" alt="drawing" width="500"/>
+
+![QQ截图20220619112833](E:\destop\QQ截图20220619112833.png)
 
 #### 最后点击保存即可 
 
@@ -123,5 +127,5 @@ wzxy_wq_config0='
 #### 自行进行设置任务 以及手动测试脚本即可。
 
 ### 赞赏支持
-<img src="https://gitee.com/Bean6560/images/raw/master/typora/QQ%E5%9B%BE%E7%89%8720220430120324.jpg" width="500px" height="650px" alt="daka" align=center>
+<img src="https://cdn.jsdelivr.net/gh/bean661/images@main/img/QQ图片20220430120324.jpg" width="500px" height="650px" alt="daka" align=center>
 
