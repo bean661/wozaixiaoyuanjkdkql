@@ -146,7 +146,7 @@ class WoZaiXiaoYuanPuncher:
         time_now = time.strftime("%H:%M:%S", time.localtime())
         time_list = time_now.split(":")
         if time_list[0] != '11':
-            print("不在晚签时间段,请换时间晚签")
+            # print("不在晚签时间段,请换时间晚签")
             self.status_code = 3
             return True
         else:
