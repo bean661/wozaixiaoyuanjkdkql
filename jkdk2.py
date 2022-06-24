@@ -235,18 +235,39 @@ class WoZaiXiaoYuanPuncher:
 
 
 if __name__ == '__main__':
-    users = os.environ["wzxy_jkdk"].split('&')
-    for user in users:
-        user = user.split(";")
-        username = user[0].split('=')[1]
-        password = user[1].split('=')[1]
-        location = user[2].split('=')[1]
-        answers = user[3].split('=')[1]
-        pushPlusToken = user[4].split('=')[1]
-        onlyWrongNotify = user[5].split('=')[1]
-        mark = user[6].split('=')[1]
-        print(username)
-   # 读取环境变量，若变量不存在则返回 默认值 'null'
+    #获取环境变量
+
+        users = os.environ["wzxy_jkdk"].split('&')
+        for user in users:
+            try:
+                user = user.split(";")
+                username = user[0].split('=')[1]
+                password = user[1].split('=')[1]
+                location = user[2].split('=')[1]
+                answers = user[3].split('=')[1]
+                pushPlusToken = user[4].split('=')[1]
+                onlyWrongNotify = user[5].split('=')[1]
+                mark = user[6].split('=')[1]
+                print(username)
+                configs = {"wozaixiaoyuan_data":{"username": username,"password": password,"location":location,"answers":answers},"pushPlus_data":{"notifyToken" : pushPlusToken,"onlyWrongNotify" : onlyWrongNotify}, "mark": mark}
+                print("--------------开始打卡用户：" + configs["mark"] + "------------------")
+                wzxy = WoZaiXiaoYuanPuncher(configs)
+                # 如果没有 jwsession，则 登录 + 打卡
+                if os.path.exists('.cache/' + str(configs["wozaixiaoyuan_data"]["username"]) + ".json") is False:
+                    print("找不到cache文件，正在使用账号信息登录...")
+                    loginStatus = wzxy.login()
+                    if loginStatus:
+                        print("登录成功,开始打卡")
+                        wzxy.PunchIn()
+                    else:
+                        print("登录失败")
+                else:
+                    print("找到cache文件，正在使用jwsession打卡")
+                    wzxy.PunchIn()
+            except Exception as e:
+                wzxy.sendNotification()
+                print("账号" + configs["mark"] + "账号信息异常" + e)
+# 读取环境变量，若变量不存在则返回 默认值 'null'
    #  for i in range(200):
    #      try:
    #          client_priv_key = os.getenv('wzxy_jkdk'+str(i), 'null')
