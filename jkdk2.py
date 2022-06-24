@@ -237,6 +237,7 @@ class WoZaiXiaoYuanPuncher:
 if __name__ == '__main__':
     users = os.environ["wzxy_jkdk"].split('&')
     for user in users:
+        user = user.split(";")
         print(user)
    # 读取环境变量，若变量不存在则返回 默认值 'null'
    #  for i in range(200):
