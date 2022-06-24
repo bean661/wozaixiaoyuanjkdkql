@@ -238,7 +238,14 @@ if __name__ == '__main__':
     users = os.environ["wzxy_jkdk"].split('&')
     for user in users:
         user = user.split(";")
-        print(user)
+        username = user[0].split('=')[1]
+        password = user[1].split('=')[1]
+        location = user[2].split('=')[1]
+        answers = user[3].split('=')[1]
+        pushPlusToken = user[4].split('=')[1]
+        onlyWrongNotify = user[5].split('=')[1]
+        mark = user[6].split('=')[1]
+        print(username)
    # 读取环境变量，若变量不存在则返回 默认值 'null'
    #  for i in range(200):
    #      try:
