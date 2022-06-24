@@ -261,6 +261,7 @@ if __name__ == '__main__':
                         wzxy.PunchIn()
                     else:
                         print("登录失败")
+                        wzxy.sendNotification()
                 else:
                     print("找到cache文件，正在使用jwsession打卡")
                     wzxy.PunchIn()
