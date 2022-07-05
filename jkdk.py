@@ -239,7 +239,7 @@ class WoZaiXiaoYuanPuncher:
 
 if __name__ == '__main__':
    # 读取环境变量，若变量不存在则返回 默认值 'null'
-    for i in range(1):
+    for i in range(200):
         try:
             client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
             if client_priv_key == 'null':
