@@ -106,6 +106,7 @@ class WoZaiXiaoYuanPuncher:
             "location": location
         })
         _res = res['regeocode']['addressComponent']
+        print(_res)
         location = location.split(',')
         sign_data = {
             "answers": self.answers,
@@ -118,6 +119,8 @@ class WoZaiXiaoYuanPuncher:
             "township": _res['township'],
             "street": _res['streetNumber']['street'],
             "areacode": _res['adcode'],
+            "towncode":"0",
+            "citycode":"0",
             "timestampHeader":round(time.time())
         }
         return sign_data
@@ -236,7 +239,7 @@ class WoZaiXiaoYuanPuncher:
 
 if __name__ == '__main__':
    # 读取环境变量，若变量不存在则返回 默认值 'null'
-    for i in range(200):
+    for i in range(1):
         try:
             client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
             if client_priv_key == 'null':
