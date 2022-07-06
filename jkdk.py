@@ -106,7 +106,6 @@ class WoZaiXiaoYuanPuncher:
             "location": location
         })
         _res = res['regeocode']['addressComponent']
-        print(_res)
         location = location.split(',')
         sign_data = {
             "answers": self.answers,
