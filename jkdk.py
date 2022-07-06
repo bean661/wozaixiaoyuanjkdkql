@@ -261,5 +261,7 @@ if __name__ == '__main__':
             else:
                 print("找到cache文件，正在使用jwsession打卡")
                 wzxy.PunchIn()
+            print('\n--------------睡眠5秒继续打卡------------------\n')
+            time.sleep(5)
         except Exception as e:
             print("账号"+str(i+1)+"信息异常"+e)
