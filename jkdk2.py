@@ -116,6 +116,8 @@ class WoZaiXiaoYuanPuncher:
             "province": _res['province'],
             "township": _res['township'],
             "street": _res['streetNumber']['street'],
+            "towncode": "0",
+            "citycode": "0",
             "areacode": _res['adcode'],
             "timestampHeader":round(time.time())
         }
