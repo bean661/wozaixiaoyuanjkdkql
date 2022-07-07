@@ -131,6 +131,8 @@ class WoZaiXiaoYuanPuncher:
             "province": _res['province'],
             "district": _res['district'],
             "township": _res['township'],
+            "towncode": "0",
+            "citycode": "0",
             "street": _res['streetNumber']['street'],
             "timestampHeader": round(time.time())
         }

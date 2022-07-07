@@ -113,6 +113,8 @@ class WoZaiXiaoYuanPuncher:
             "district": _res['district'],
             "province": _res['province'],
             "township": _res['township'],
+            "towncode": "0",
+            "citycode": "0",
             "street": _res['streetNumber']['street'],
             "id": self.sign_message['logId'],
             "signId": self.sign_message['id'],
