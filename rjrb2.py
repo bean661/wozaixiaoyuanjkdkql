@@ -267,7 +267,7 @@ class WoZaiXiaoYuanPuncher:
 
 
 if __name__ == '__main__':
-    users = os.environ["wzxy_jkdk"].split('&')
+    users = os.environ["wzxy_rjrb"].split('&')
     # 读取环境变量，若变量不存在则返回 默认值 'null'
     for user in users:
         try:
