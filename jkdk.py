@@ -65,7 +65,7 @@ class WoZaiXiaoYuanPuncher:
         self.body = "{}"
 
     # 地理/逆地理编码请求
-    def geoCode(url, params):
+    def geoCode(self,url, params):
         _params = {
             **params,
             "key": "A3YBZ-NC5RU-MFYVV-BOHND-RO3OT-ABFCR",
