@@ -64,7 +64,8 @@ class WoZaiXiaoYuanPuncher:
         self.body = "{}"
 
     # 地理/逆地理编码请求
-    def geoCode(url, params):
+    # 地理/逆地理编码请求
+    def geoCode(self,url, params):
         _params = {
             **params,
             "key": "A3YBZ-NC5RU-MFYVV-BOHND-RO3OT-ABFCR",
@@ -96,21 +97,21 @@ class WoZaiXiaoYuanPuncher:
             data = processJson('.cache/'+str(self.data["username"])+".json").read()
             self.jwsession = data['jwsession']
         return self.jwsession
-    # 请求地址信息
+        # 请求地址信息
+
     def requestAddress(self, location):
         # 根据经纬度求具体地址
         url = 'https://apis.map.qq.com/ws/geocoder/v1/'
-        res = self.geoCode(url, {
-            "location": location
-        })
-        # print(res)
-        _res = res['result']
-        print(_res)
         location = location.split(',')
+        res = self.geoCode(url, {
+            "location": location[1] + "," + location[0]
+        })
+        _res = res['result']
+        # location = location.split(',')
         sign_data = {
             "answers": '["0"]',
-            "latitude": location[0],
-            "longitude": location[1],
+            "latitude": location[1],
+            "longitude": location[0],
             "country": '中国',
             "city": _res['address_component']['city'],
             "district": _res['address_component']['district'],

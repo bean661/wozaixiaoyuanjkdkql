@@ -61,10 +61,10 @@ class WoZaiXiaoYuanPuncher:
         self.body = "{}"
 
     # 地理/逆地理编码请求
-    def geoCode(self, url,params):
+    def geoCode(self,url, params):
         _params = {
             **params,
-            "key": "819cfa3cf713874e1757cba0b50a0172",
+            "key": "A3YBZ-NC5RU-MFYVV-BOHND-RO3OT-ABFCR",
         }
         response = requests.get(url=url, params=_params)
         res = json.loads((response.text))
@@ -95,29 +95,31 @@ class WoZaiXiaoYuanPuncher:
             self.jwsession = data['jwsession']
         return self.jwsession
 
-    # 请求地址信息
+        # 请求地址信息
+
     def requestAddress(self, location):
         # 根据经纬度求具体地址
-        url2 = 'https://restapi.amap.com/v3/geocode/regeo'
-        res = self.geoCode(url2, {
-            "location": location
-        })
-        _res = res['regeocode']['addressComponent']
-        print(_res)
+        url = 'https://apis.map.qq.com/ws/geocoder/v1/'
         location = location.split(',')
+        res = self.geoCode(url, {
+            "location": location[1] + "," + location[0]
+        })
+        _res = res['result']
+        # location = location.split(',')
         sign_data = {
+            "answers": '["0"]',
             "latitude": location[1],
             "longitude": location[0],
             "country": '中国',
-            "city": _res['city'],
-            "district": _res['district'],
-            "province": _res['province'],
-            "township": _res['township'],
-            "towncode": "0",
-            "citycode": "0",
-            "street": _res['streetNumber']['street'],
-            "id": self.sign_message['logId'],
-            "signId": self.sign_message['id'],
+            "city": _res['address_component']['city'],
+            "district": _res['address_component']['district'],
+            "province": _res['address_component']['province'],
+            "township": _res['address_reference']['town']['title'],
+            "street": _res['address_component']['street_number'],
+            "towncode": _res['address_reference']['town']['id'],
+            "citycode": _res['ad_info']['city_code'],
+            "areacode": _res['ad_info']['adcode'],
+            "timestampHeader": round(time.time())
         }
         return sign_data
 
@@ -284,4 +286,4 @@ if __name__ == '__main__':
                 print("找到cache文件，正在使用jwsession晚签")
                 wzxy.PunchIn()
         except Exception as e:
-            print("账号"+str(i+1)+"信息异常")
+            print("账号"+user+"信息异常")

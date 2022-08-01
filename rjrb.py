@@ -67,11 +67,10 @@ class WoZaiXiaoYuanPuncher:
         self.body = "{}"
 
     # 地理/逆地理编码请求
-    def geoCode(self, url, params):
-        url = "https://restapi.amap.com/v3/geocode/regeo"
+    def geoCode(self,url, params):
         _params = {
             **params,
-            "key": "819cfa3cf713874e1757cba0b50a0172",
+            "key": "A3YBZ-NC5RU-MFYVV-BOHND-RO3OT-ABFCR",
         }
         response = requests.get(url=url, params=_params)
         res = json.loads((response.text))
@@ -111,29 +110,30 @@ class WoZaiXiaoYuanPuncher:
             if self.seq == 0 and int(startTime.split(':')[0]) <= int(current_hour) < int(endTime.split(':')[0]):
                 self.seq = res['data'][i]['seq']
                 return self.seq
-    # 请求地址信息
+        # 请求地址信息
+
     def requestAddress(self, location):
         # 根据经纬度求具体地址
-        url2 = 'https://restapi.amap.com/v3/geocode/regeo'
-        res = self.geoCode(url2, {
-            "location": location
-        })
-        _res = res['regeocode']['addressComponent']
+        url = 'https://apis.map.qq.com/ws/geocoder/v1/'
         location = location.split(',')
+        res = self.geoCode(url, {
+            "location": location[1] + "," + location[0]
+        })
+        _res = res['result']
+        # location = location.split(',')
         sign_data = {
-            "answers": self.answers,
-            "seq": self.seq,
-            "temperature": '36.5',
+            "answers": '["0"]',
             "latitude": location[1],
             "longitude": location[0],
             "country": '中国',
-            "city": _res['city'],
-            "province": _res['province'],
-            "district": _res['district'],
-            "township": _res['township'],
-            "towncode": "0",
-            "citycode": "0",
-            "street": _res['streetNumber']['street'],
+            "city": _res['address_component']['city'],
+            "district": _res['address_component']['district'],
+            "province": _res['address_component']['province'],
+            "township": _res['address_reference']['town']['title'],
+            "street": _res['address_component']['street_number'],
+            "towncode": _res['address_reference']['town']['id'],
+            "citycode": _res['ad_info']['city_code'],
+            "areacode": _res['ad_info']['adcode'],
             "timestampHeader": round(time.time())
         }
         return sign_data

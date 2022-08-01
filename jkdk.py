@@ -239,14 +239,13 @@ class WoZaiXiaoYuanPuncher:
 
 if __name__ == '__main__':
    # 读取环境变量，若变量不存在则返回 默认值 'null'
-    for i in range(1):
+    for i in range(200):
         try:
-            # client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
-            # if client_priv_key == 'null':
-            #     print('打卡完毕，共'+str(i)+"个账号。")
-            #     break
-            # configs = os.environ['wzxy_jkdk_config'+str(i)]
-            configs = '{"wozaixiaoyuan_data":{"username": "13259926162","password": "999999","location":"108.898062,34.16155","answers":"0,2,36.5,2,7"},"pushPlus_data":{"notifyToken" : "4f47906cc85142ae8f8633269780bfe1","onlyWrongNotify" : "true"}, "mark": "Bean"}'
+            client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
+            if client_priv_key == 'null':
+                print('打卡完毕，共'+str(i)+"个账号。")
+                break
+            configs = os.environ['wzxy_jkdk_config'+str(i)]
             configs = json.loads(configs)
             # answers = pre().get_answers(i)
             print("--------------开始打卡用户："+configs["mark"]+"------------------")
