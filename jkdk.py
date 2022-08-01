@@ -65,15 +65,15 @@ class WoZaiXiaoYuanPuncher:
         self.body = "{}"
 
     # 地理/逆地理编码请求
-    def geoCode(self, url, params):
-        url = "https://restapi.amap.com/v3/geocode/regeo"
+    def geoCode(url, params):
         _params = {
             **params,
-            "key": "819cfa3cf713874e1757cba0b50a0172",
+            "key": "A3YBZ-NC5RU-MFYVV-BOHND-RO3OT-ABFCR",
         }
         response = requests.get(url=url, params=_params)
         res = json.loads((response.text))
         return res
+
     # 设置JWSESSION
     def setJwsession(self):
     # 如果找不到cache,新建cache储存目录与文件
@@ -101,26 +101,28 @@ class WoZaiXiaoYuanPuncher:
     # 请求地址信息
     def requestAddress(self, location):
         # 根据经纬度求具体地址
-        url2 = 'https://restapi.amap.com/v3/geocode/regeo'
-        res = self.geoCode(url2, {
+        url = 'https://apis.map.qq.com/ws/geocoder/v1/'
+        res = self.geoCode(url, {
             "location": location
         })
-        _res = res['regeocode']['addressComponent']
+        # print(res)
+        _res = res['result']
+        print(_res)
         location = location.split(',')
         sign_data = {
-            "answers": self.answers,
-            "latitude": location[1],
-            "longitude": location[0],
+            "answers": '["0"]',
+            "latitude": location[0],
+            "longitude": location[1],
             "country": '中国',
-            "city": _res['city'],
-            "district": _res['district'],
-            "province": _res['province'],
-            "township": _res['township'],
-            "street": _res['streetNumber']['street'],
-            "areacode": _res['adcode'],
-            "towncode":"0",
-            "citycode":"0",
-            "timestampHeader":round(time.time())
+            "city": _res['address_component']['city'],
+            "district": _res['address_component']['district'],
+            "province": _res['address_component']['province'],
+            "township": _res['address_reference']['town']['title'],
+            "street": _res['address_component']['street_number'],
+            "towncode": _res['address_reference']['town']['id'],
+            "citycode": _res['ad_info']['city_code'],
+            "areacode": _res['ad_info']['adcode'],
+            "timestampHeader": round(time.time())
         }
         return sign_data
     # 登录
@@ -238,13 +240,14 @@ class WoZaiXiaoYuanPuncher:
 
 if __name__ == '__main__':
    # 读取环境变量，若变量不存在则返回 默认值 'null'
-    for i in range(200):
+    for i in range(1):
         try:
-            client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
-            if client_priv_key == 'null':
-                print('打卡完毕，共'+str(i)+"个账号。")
-                break
-            configs = os.environ['wzxy_jkdk_config'+str(i)]
+            # client_priv_key = os.getenv('wzxy_jkdk_config'+str(i), 'null')
+            # if client_priv_key == 'null':
+            #     print('打卡完毕，共'+str(i)+"个账号。")
+            #     break
+            # configs = os.environ['wzxy_jkdk_config'+str(i)]
+            configs = '{"wozaixiaoyuan_data":{"username": "13259926162","password": "999999","location":"108.898062,34.16155","answers":"0,2,36.5,2,7"},"pushPlus_data":{"notifyToken" : "4f47906cc85142ae8f8633269780bfe1","onlyWrongNotify" : "true"}, "mark": "Bean"}'
             configs = json.loads(configs)
             # answers = pre().get_answers(i)
             print("--------------开始打卡用户："+configs["mark"]+"------------------")

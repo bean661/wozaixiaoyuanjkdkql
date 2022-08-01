@@ -64,11 +64,10 @@ class WoZaiXiaoYuanPuncher:
         self.body = "{}"
 
     # 地理/逆地理编码请求
-    def geoCode(self, url, params):
-        url = "https://restapi.amap.com/v3/geocode/regeo"
+    def geoCode(url, params):
         _params = {
             **params,
-            "key": "819cfa3cf713874e1757cba0b50a0172",
+            "key": "A3YBZ-NC5RU-MFYVV-BOHND-RO3OT-ABFCR",
         }
         response = requests.get(url=url, params=_params)
         res = json.loads((response.text))
@@ -100,26 +99,28 @@ class WoZaiXiaoYuanPuncher:
     # 请求地址信息
     def requestAddress(self, location):
         # 根据经纬度求具体地址
-        url2 = 'https://restapi.amap.com/v3/geocode/regeo'
-        res = self.geoCode(url2, {
+        url = 'https://apis.map.qq.com/ws/geocoder/v1/'
+        res = self.geoCode(url, {
             "location": location
         })
-        _res = res['regeocode']['addressComponent']
+        # print(res)
+        _res = res['result']
+        print(_res)
         location = location.split(',')
         sign_data = {
-            "answers": self.answers,
-            "latitude": location[1],
-            "longitude": location[0],
+            "answers": '["0"]',
+            "latitude": location[0],
+            "longitude": location[1],
             "country": '中国',
-            "city": _res['city'],
-            "district": _res['district'],
-            "province": _res['province'],
-            "township": _res['township'],
-            "street": _res['streetNumber']['street'],
-            "towncode": "0",
-            "citycode": "0",
-            "areacode": _res['adcode'],
-            "timestampHeader":round(time.time())
+            "city": _res['address_component']['city'],
+            "district": _res['address_component']['district'],
+            "province": _res['address_component']['province'],
+            "township": _res['address_reference']['town']['title'],
+            "street": _res['address_component']['street_number'],
+            "towncode": _res['address_reference']['town']['id'],
+            "citycode": _res['ad_info']['city_code'],
+            "areacode": _res['ad_info']['adcode'],
+            "timestampHeader": round(time.time())
         }
         return sign_data
     # 登录
